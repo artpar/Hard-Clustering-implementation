@@ -1,5 +1,7 @@
 // Made By: Parth Mudgal
 
+#include "stdafx.h"
+
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -14,7 +16,7 @@ private:
   vector< vector<int> > matrix;
   vector< vector<float> > data;
   vector< vector<float> > center;
-  vector< vector<float> > temp_center;
+  vector< vector<int> > temp_matrix;
 
   ostream& out;
 public:
@@ -71,23 +73,23 @@ public:
     }
   }
 
-  void copy_center(){
-    temp_center.clear();
-    temp_center.resize(center.size());
-    for(int i=0;i<center.size();i++){
-      temp_center[i].clear();
-      temp_center[i].resize(center[i].size());
-      for(int j=0;j<center[i].size();j++){
-        temp_center[i][j] = center[i][j];
+  void copy_matrix(){
+    temp_matrix.clear();
+    temp_matrix.resize(matrix.size());
+    for(int i=0;i<matrix.size();i++){
+      temp_matrix[i].clear();
+      temp_matrix[i].resize(matrix[i].size());
+      for(int j=0;j<matrix[i].size();j++){
+        temp_matrix[i][j] = matrix[i][j];
       }
     }
   }
 
-  bool is_equal(vector< vector<float> >& m1, vector< vector<float> >& m2){
+  bool is_equal(vector< vector<int> >& m1, vector< vector<int> >& m2){
     if(m1.size() != m2.size())return false;
     for(int i=0;i<m1.size();i++){
-      if(m1[i].size() != m2.size())return false;
-      for(int j=0;j<center[i].size();j++){
+      if(m1[i].size() != m2[i].size())return false;
+      for(int j=0;j<m1[i].size();j++){
         if(m1[i][j] != m2[i][j]){
           return false;
         }
@@ -97,12 +99,12 @@ public:
   }
 
   void process(){
-    temp_center.clear();
+    temp_matrix.clear();
     int count=0;
     calculate_center();
-    while(!is_equal(center, temp_center) && count<10){
+    while(!is_equal(matrix, temp_matrix) && count<10){
       print_matrix();
-      copy_center();
+      copy_matrix();
 
       
       for(int i=0;i<data_count;i++){
